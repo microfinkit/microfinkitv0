@@ -82,7 +82,7 @@ def tick_bar_dfx(df, price_column, m):
         close_b: rename the price in order to get more consistent with others
                  variable notations
     # returns
-        Return a pandas data frame with computed tick bars, and its respective
+        Return a pandas dataframe with computed tick bars, and its respective
         open
     '''
     idx = tick_bars(df, price_column, m)
