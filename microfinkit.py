@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Market Microstructure Finance
+Market Microstructure Finance functions
+Python version: Python 3.7.1 
 """
-
-import numpy as np
-import pandas as pd
 
     
 def tick_bars(df, price_column, m):
@@ -69,13 +67,29 @@ def atrib_p(df,price_column,idx,flag):
 
 
 def tick_bar_dfx(df, price_column, m):
+    '''
     
+    Compute the thick bar with open bar price, average bar price,
+    maximum bar price, and minimum  bar price.
+    
+    # args
+        df: pandas dataframe
+        idx: tick bar index
+        dfn: pandas dataframe from tick bar index
+        open_b: price from the begining of range
+        avg_p: average price computed from the bar range
+        max_p: maximum price computed from the bar range
+        close_b: rename the price in order to get more consistent with others
+                 variable notations
+    # returns
+        Return a pandas data frame with computed tick bars, and its respective
+        open
+    '''
     idx = tick_bars(df, price_column, m)
-    dfn = df.iloc[idx].copy()#.drop_duplicates()
+    dfn = df.iloc[idx]
     dfn['open_b']= atrib_p(df,price_column,idx,0)
     dfn['avg_b']= atrib_p(df,price_column,idx,1)
     dfn['max_b']= atrib_p(df,price_column,idx,2)
     dfn['min_b']= atrib_p(df,price_column,idx,3)
     dfn.rename(columns={'price': 'close_b'}, inplace=True)
     return dfn
-
