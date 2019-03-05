@@ -82,11 +82,11 @@ def tick_bar_dfx(df, price_column, m):
         close_b: rename the price in order to get more consistent with others
                  variable notations
     # returns
-        Return a pandas dataframe with computed tick bars, and its respective
+        Return a pandas data frame with computed tick bars, and its respective
         open, close, high, and low bar prices.
     '''
     idx = tick_bars(df, price_column, m)
-    dfn = df.iloc[idx]
+    dfn = df.iloc[idx].copy()
     dfn['open_b']= atrib_p(df,price_column,idx,0)
     dfn['avg_b']= atrib_p(df,price_column,idx,1)
     dfn['max_b']= atrib_p(df,price_column,idx,2)
