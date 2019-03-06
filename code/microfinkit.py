@@ -15,6 +15,9 @@ def tick_bars(df, price_column, m):
         m: int(), threshold value for ticks
     # returns
         idx: list of indices
+    # reference:
+       https://github.com/BlackArbsCEO/Adv_Fin_ML_Exercises/blob/master/notebooks/Tick%2C%20Volume%2C%20Dollar%20Volume%20Bars.ipynb
+    
     '''
     t = df[price_column]
     ts = 0
