@@ -4,7 +4,8 @@ Market Microstructure Finance functions
 Python version: Python 3.7.1 
 version 0.2
 """
-
+import pandas as pd
+import numpy as np
     
 def bar(df, bar_column, treshold, flag):
     '''
@@ -151,4 +152,27 @@ def bar_df(df, price_column,vol_column, dollar_column, treshold, flag):
     dfn['vwap_b'] = vwap(df, vol_column,dollar_column,idx)
     dfn = dfn.drop([vol_column, dollar_column], axis = 1)
     dfn.rename(columns={'price': 'close_b'}, inplace=True)
+    return dfn
+
+
+def tick_rule(df,delta_column):
+    '''
+    Compute the tick rule proposed by Lopez del Prado in AMLF
+    # args
+        df: Pandas dataframe
+        ret_column: Returns column name
+    
+    # returns 
+        Returns a panda dataframe column, with delta price sing
+        bt =  abs(dp)/dp
+        if bt == 0 then bt = bt-1
+        In order to get information at series begin, the bt takes bt+1 sing.
+    
+    '''
+    dfn = df.copy()
+    dfn[delta_column] = dfn[delta_column].apply(np.sign)
+    dfn[delta_column][dfn[delta_column]==0] = np.nan
+    dfn[delta_column] = dfn[delta_column].fillna(method='ffill')
+    dfn[delta_column] = dfn[delta_column].fillna(method='bfill')
+    dfn.rename(columns={delta_column: 'tick_rule'},inplace=True)
     return dfn
