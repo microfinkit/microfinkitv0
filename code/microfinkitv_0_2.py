@@ -155,12 +155,12 @@ def bar_df(df, price_column,vol_column, dollar_column, treshold, flag):
     return dfn
 
 
-def tick_rule(df,delta_column):
+def tick_rule(df,price_column):
     '''
     Compute the tick rule proposed by Lopez del Prado in AMLF
     # args
         df: Pandas dataframe
-        ret_column: Returns column name
+        price_column: price column name
     
     # returns 
         Returns a panda dataframe column, with delta price sing
@@ -169,10 +169,15 @@ def tick_rule(df,delta_column):
         In order to get information at series begin, the bt takes bt+1 sing.
     
     '''
+    # For some reaon panda gets a warning message.  The next code
+    # disable this message
+    pd.options.mode.chained_assignment = None
     dfn = df.copy()
-    dfn[delta_column] = dfn[delta_column].apply(np.sign)
-    dfn[delta_column][dfn[delta_column]==0] = np.nan
-    dfn[delta_column] = dfn[delta_column].fillna(method='ffill')
-    dfn[delta_column] = dfn[delta_column].fillna(method='bfill')
-    dfn.rename(columns={delta_column: 'tick_rule'},inplace=True)
+    dfn[price_column] = dfn[price_column] - dfn[price_column].shift(1)
+    dfn[price_column] = dfn[price_column].apply(np.sign)
+    dfn[price_column][dfn[price_column]==0] = np.nan
+    dfn[price_column] = dfn[price_column].fillna(method='ffill')
+    dfn[price_column] = dfn[price_column].fillna(method='bfill')
+    dfn.rename(columns={price_column: 'tick_rule'},inplace=True)
+    return dfn['tick_rule']
     return dfn
