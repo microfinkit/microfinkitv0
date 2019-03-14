@@ -11,7 +11,7 @@ def bar(df, bar_column, treshold, flag):
     '''
     Compute index for bar's kind
     # args
-        df: pandas dataframe
+        df: pandas dataframe with time, price, quantity, and dollars
         bar_column: Column name for bar's kind
         treshold: int(), Threshold value for bar's kind
         flag:   0 if is a tick bar
